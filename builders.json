@@ -1,0 +1,15 @@
+{
+  "$schema": "@angular-devkit/architect/src/builders-schema.json",
+  "builders": {
+    "timestamp": {
+      "implementation": "./dist/timestamp/index.js",
+      "schema": "./timestamp/schema.json",
+      "description": "Builder that creates timestamp"
+    },
+    "mutate": {
+      "implementation": "./dist/mutation/index.js",
+      "schema": "./mutation/schema.json",
+      "description": "Builder that creates stryker mutation"
+    }
+  }
+}

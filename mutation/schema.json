@@ -1,0 +1,64 @@
+{
+  "id": "MutationBuilderSchema",
+  "title": "Mutation builder",
+  "description": "Mutation builder options",
+  "properties": {
+    "configPath": {
+      "type": "string",
+      "description": "path to the stryker config file"
+    },
+    "mutator":{
+      "type": "string",
+      "description": "mutator"
+    },
+    "packageManager":{
+      "type": "string",
+      "description": "packageManager"
+    },
+    "testRunner":{
+      "type": "string",
+      "description": "testRunner"
+    },
+    "jest":{
+      "type": "object",
+      "description": "jest"
+    },
+    "plugins":{
+      "type": "array",
+      "description": "plugins"
+    },
+    "coverageAnalysis":{
+      "type": "string",
+      "description": "coverageAnalysis"
+    },
+    "tsconfigFile":{
+      "type": "string",
+      "description": "tsconfigFile"
+    },
+    "files":{
+      "type": "array",
+      "description": "files"
+    },
+    "mutate":{
+      "type": "array",
+      "description": "mutate"
+    },
+    "fileLogLevel":{
+      "type": "string",
+      "description": "fileLogLevel"
+    },
+    "logLevel":{
+      "type": "string",
+      "description": "logLevel"
+    },
+    "timeoutMS":{
+      "type": "number",
+      "description": "timeoutMS"
+    },
+    "reporters":{
+      "type": "array",
+      "description": "reporters"
+    }
+  },
+  "required": ["name"]
+}

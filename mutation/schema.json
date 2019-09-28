@@ -3,9 +3,13 @@
   "title": "Mutation builder",
   "description": "Mutation builder options",
   "properties": {
-    "configPath": {
+    "configFile": {
       "type": "string",
       "description": "path to the stryker config file"
+    },
+    "runnerFile": {
+      "type": "string",
+      "description": "path to the runner config file"
     },
     "mutator":{
       "type": "string",
@@ -60,5 +64,5 @@
       "description": "reporters"
     }
   },
-  "required": ["name"]
+  "required": []
 }

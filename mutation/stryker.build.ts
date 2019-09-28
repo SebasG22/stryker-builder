@@ -4,46 +4,59 @@ import { LogLevel } from '@stryker-mutator/api/core';
 import { SchemaObject as StrykerBuilderSchema } from './schema';
 
 export class StrykerConfiguration{
-    constructor(private _logger: LoggerApi, private workspaceRoot: string){}
+  private readonly _config = new Config();
+
+    constructor(private _logger: LoggerApi, private _workspaceRoot: string){}
 
     validateConfig(options:StrykerBuilderSchema){
       if(options.configFile){
-         this._logger.debug(`Starting stryker builder with file configuration ${options.configFile}`);
-         return new Config();
+        switch (options.testRunner) {
+          case 'jest':
+              return this.getConfigurationByFile(options.configFile, options.jest);
+        case 'karma':
+            return this.getConfigurationByFile(options.configFile, options.karma);
+        }
       }
-      this._logger.debug(`Starting stryker builder with params configuration`);
-      return this.generateConfig(options);
+      return this.getConfigByParams(options);
       
     }
-    generateConfig(options:StrykerBuilderSchema){        
-        const config = new Config();
-        let files;
-      if(options.files){
-        files = options.files.map((filePath: string)=>
-        filePath.replace('./',`${this.workspaceRoot}/`)
-      )
-      }
-        config.set({
+
+    getConfigByParams(options:StrykerBuilderSchema){        
+      this._logger.debug(`Starting stryker builder with params configuration`);
+
+        this._config.set({
           mutator: options.mutator,
           packageManager: options.packageManager,
           testRunner: options.testRunner,
           jest: {
-            config: require(options.jest.config)
+            ...options.jest,
+            config: require(options.jest.config.replace('./',`${this._workspaceRoot}/`))
           },
           plugins: options.plugins,
           coverageAnalysis: options.coverageAnalysis,
           tsconfigFile: options.tsconfigFile,
-          files,
-          mutate:  options.mutate.map((filePath: string)=>
-          filePath.replace('./',`${this.workspaceRoot}/`)
-        ),
+          files: options.files,
+          mutate:  options.mutate,
           fileLogLevel: options.fileLogLevel || LogLevel.Off,
           logLevel: options.logLevel || LogLevel.Off,
-          timeoutMS: options.timeoutMS || 5000000,
+          timeoutMS: options.timeoutMS,
           reporters: options.reporters || ['html']
           });
-          this._logger.debug(`Stryker Config ${JSON.stringify(config)}`);
+          this._logger.debug(`Stryker Config ${JSON.stringify(this._config)}`);
+       return this._config;
+    }
 
-       return config;
+    getConfigurationByFile(configFilePath: string, runnerConfig: any){
+      this._logger.debug(`Starting stryker builder with file configuration ${configFilePath}`);
+      const configFile = require(configFilePath.replace('./',`${this._workspaceRoot}/`));
+      configFile(this._config);
+      this._logger.debug(`Stryker Config ${JSON.stringify(this._config)}`);
+      this._config.set({
+        jest: {
+          ...runnerConfig,
+          config: require(runnerConfig.jest.config.replace('./',`${this._workspaceRoot}/`))
+        }
+      })
+      return this._config
     }
 }

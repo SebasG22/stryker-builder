@@ -1,6 +1,6 @@
 {
   "name": "@pinebox/angular-builder",
-  "version": "1.0.0-alpha.11",
+  "version": "1.0.0-alpha.16",
   "builders": "builders.json",
   "description": "",
   "main": "index.js",

@@ -9,9 +9,8 @@ import { json } from '@angular-devkit/core';
 export function createStrykerRunner(
     options: StrykerBuilderSchema,
     {  logger,
-        workspaceRoot }: BuilderContext,
+        workspaceRoot  }: BuilderContext,
 ): Observable<BuilderOutput> {
-    logger.warn('Workspace Root' + workspaceRoot);
     const config = new StrykerConfiguration(logger, workspaceRoot).validateConfig(options);
     const strykerInstance = new Stryker(config);
     // strykerInstance.runMutationTest().then(()=> 

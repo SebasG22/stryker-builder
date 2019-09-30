@@ -23,9 +23,13 @@
       "type": "string",
       "description": "testRunner"
     },
-    "jest":{
+    "testPackage":{
+      "type": "string",
+      "description": "testPackage"
+    },
+    "commandRunner":{
       "type": "object",
-      "description": "jest"
+      "description": "commandRunner"
     },
     "plugins":{
       "type": "array",
